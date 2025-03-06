@@ -57,3 +57,24 @@ async function Deletehosts(req,res,next){
     }
     next();
 }
+
+async function Readhosts(req,res,next){
+    const Query = `SELECT * FROM hosts `;
+    // console.log(Query);
+    const promisePool = db_pool.promise();
+    let rows=[];
+    req.user_by_id=[];
+    try {
+        [rows] = await promisePool.query(Query);
+        for(let idx in rows){
+            rows[idx].name= htmlspecialchars(stripSlashes(rows[idx].name));
+            req.user_by_id[rows[idx].id] = rows[idx].name;
+        }
+        req.success=true;
+        req.users_data=rows;
+    } catch (err) {
+        req.success=false;
+        console.log(err);
+    }
+    next();
+}
