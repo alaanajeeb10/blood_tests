@@ -71,3 +71,58 @@ function editTests(id, high, low, heartR, date) {
     selectedTeststId = id;
     document.getElementById("updateButton").style.display = "block";
 }
+
+
+
+async function updateTests() {
+    if (!selectedTestsId) {
+        alert("please specify a test ID");
+        return;
+    }
+
+    let hostId = document.getElementById("hostSelectHistory").value;
+    let highV = document.getElementById("highV").value;
+    let lowV = document.getElementById("lowV").value;
+    let heartR = document.getElementById("heartR").value;
+    let testDate = document.getElementById("testDate").value;
+
+
+    if (!highV || !lowV || !heartR || !testDate) {
+        alert("נא למלא את כל השדות!");
+        return;
+    }
+
+    let data = {
+        high_v: highV,
+        low_v: lowV,
+        heart_r: heartR,
+        date: testDate
+    };
+
+    console.log("Sending data to server:", data); // הדפסה של הנתונים המשלוחים לשרת
+
+    try {
+        let response = await fetch(`${URL}/T/${selectedTestId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                idx: selectedTestId, // Ensure the backend receives "idx"
+                high_v: highV,
+                low_v: lowV,
+                heart_r: heartR,
+                date: testDate
+            })
+        });
+
+        let result = await response.json();
+        if (response.ok) {
+            GetTests(hostId);
+            document.getElementById("updateButton").style.display = "none";
+            selectedTestId = null;
+        } else {
+            alert("שגיאה בעדכון הנתונים: " + result.errorMessage);
+        }
+    } catch (error) {
+        alert("שגיאה בעדכון הנתונים");
+    }
+}
