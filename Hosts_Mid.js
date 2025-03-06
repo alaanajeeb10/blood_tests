@@ -78,3 +78,10 @@ async function Readhosts(req,res,next){
     }
     next();
 }
+
+module.exports = {
+    Addhosts: Addhosts,
+    Readhosts:Readhosts,
+    Updatehosts:Updatehosts,
+    Deletehosts:Deletehosts,
+}
