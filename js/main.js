@@ -41,10 +41,6 @@ function CreateTableBody(tests) {
 
 
 
-
-
-
-
 async function GetHosts() {
     try {
         let url = `${URL}/H/`;
@@ -54,5 +50,14 @@ async function GetHosts() {
         loadHosts();
     } catch (error) {
         console.error("Error fetching users:", error);
+    }
+}
+
+
+function loadHosts() {
+    let select = document.getElementById("userSelectHistory");
+    select.innerHTML = '<option value="">בחירת לקוח</option>';
+    for (let host of hosts) {
+        select.innerHTML += `<option value="${host.id}">${host.name}</option>`;
     }
 }
