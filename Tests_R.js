@@ -23,3 +23,12 @@ router.put('/:id', [Tests_Mid.Updatetests], (req, res) => {
         res.status(500).json({ message: req.error || "Unknown error" });
     }
 });
+
+router.delete('/:id', [Tests_Mid.Deletetests], (req, res) => {
+    if (req.success) {
+        res.status(200).json({ msg: "ok" });
+    } else {
+        console.error("Error deleting measurement:", req.error);
+        res.status(500).json({ message: req.error || "Unknown error" });
+    }
+});
