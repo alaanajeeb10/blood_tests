@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blood pressure monitoring</title>
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<h2>Blood pressure monitoring - average tests per host</h2>
+
+<label for="hostSelectHistory"></label>
+<select id="hostSelectHistory" onchange="showInputSection()">
+  <option value="">Host selection</option>
+</select>
+
+
+
+<label for="monthSelect">Select a month:</label>
+<select id="monthSelect" onchange="displayHostsData(this.value)">
+  <option value="01">ינואר</option>
+  <option value="02">פברואר</option>
+  <option value="03">מרץ</option>
+  <option value="04">אפריל</option>
+  <option value="05">מאי</option>
+  <option value="06">יוני</option>
+  <option value="07">יולי</option>
+  <option value="08">אוגוסט</option>
+  <option value="09">ספטמבר</option>
+  <option value="10">אוקטובר</option>
+  <option value="11">נובמבר</option>
+  <option value="12">דצמבר</option>
+</select>
+
+
+<table id="hostDataTable">
+  <thead>
+  <tr>
+    <th>Host number</th>
+    <th>Average systolic pressure</th>
+    <th>ממוצע לחץ דיאסטולי</th>
+    <th>Average diastolic pressure</th>
+    <th>Number of abnormal measurements</th>
+  </tr>
+  </thead>
+  <tbody id="hostDataTableBody"></tbody>
+</table>
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>
