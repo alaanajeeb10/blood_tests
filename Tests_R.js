@@ -12,3 +12,14 @@ router.post('/', [Tests_Mid.Addtests], (req, res) => {
         res.status(500).json({ message: req.error || "Unknown error" });
     }
 });
+
+// Update tests (PUT)
+router.put('/:id', [Tests_Mid.Updatetests], (req, res) => {
+    console.log("Received PUT request for ID:", req.params.id);
+    if (req.success) {
+        res.status(200).json({ msg: "ok" });
+    } else {
+        console.error("Error updating measurement:", req.error);
+        res.status(500).json({ message: req.error || "Unknown error" });
+    }
+});
