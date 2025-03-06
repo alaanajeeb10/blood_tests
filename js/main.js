@@ -118,12 +118,10 @@ async function sendTests() {
     let testDate = document.getElementById("testDate").value;
 
     if (!hostId) {
-        alert("נא לבחור משתמש!");
         return;
     }
 
     if (!highV || !lowV || !heartR|| !testDate) {
-        alert("בבקשה למלא את כל הנתונים לפני השליחה!");
         return;
     }
 
