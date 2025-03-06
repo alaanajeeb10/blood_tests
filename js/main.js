@@ -16,6 +16,33 @@ async function GetTests(hostId) {
     }
 }
 
+function CreateTableBody(tests) {
+    let tableBody = document.getElementById("mainTableData");
+    tableBody.innerHTML = "";
+
+    for (let row of tests) {
+        let smart_due = row.date !== "00-00-0000" ? row.date : "";
+        let rowClass = row.highlight ? "highlighted" : "";
+
+        tableBody.innerHTML += `
+            <tr class="${rowClass}" id="row-${row.id}">
+                <td>${row.high_v}</td>
+                <td>${row.low_v}</td>
+                <td>${row.heart_r}</td>
+                <td>${smart_due}</td>
+                <td>
+                    <button onclick="editHosts(${row.id}, ${row.high_v}, ${row.low_v}, ${row.heart_r}, '${smart_due}')">ערוך</button>
+                    <button onclick="deleteHosts(${row.id})" style="background-color: blue;">🗑 מחק</button>
+                </td>
+            </tr>
+        `;
+    }
+}
+
+
+
+
+
 
 
 async function GetHosts() {
