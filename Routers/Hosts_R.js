@@ -35,3 +35,5 @@ router.get('/', [Hosts_Mid.Readhosts], (req, res) => {
         return res.status(500).json({ message: req.error || 'An error occurred' });
     }
 });
+
+module.exports = router;
