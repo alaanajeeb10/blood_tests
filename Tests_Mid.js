@@ -52,3 +52,20 @@ async function Updatetests(req, res, next) {
         req.success = false;
     }
 }
+
+async function Deletetests(req,res,next){
+    let idx = parseInt(req.params.id);
+    let Query = `DELETE FROM tests  `;
+    Query += ` WHERE id = ${idx} `;
+    // console.log(Query);
+    const promisePool = db_pool.promise();
+    let rows=[];
+    try {
+        [rows] = await promisePool.query(Query);
+        req.success=true;
+    } catch (err) {
+        req.success=false;
+        console.log(err);
+    }
+    next();
+}
