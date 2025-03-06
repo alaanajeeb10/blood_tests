@@ -49,15 +49,25 @@ async function GetHosts() {
         hosts = reply.data;
         loadHosts();
     } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error("Error fetching hosts:", error);
     }
 }
 
 
 function loadHosts() {
-    let select = document.getElementById("userSelectHistory");
+    let select = document.getElementById("hostSelectHistory");
     select.innerHTML = '<option value="">בחירת לקוח</option>';
     for (let host of hosts) {
         select.innerHTML += `<option value="${host.id}">${host.name}</option>`;
     }
+}
+
+function editTests(id, high, low, heartR, date) {
+    document.getElementById("highV").value = high;
+    document.getElementById("lowV").value = low;
+    document.getElementById("heartR").value = heartR;
+    document.getElementById("testDate").value = date;
+
+    selectedTeststId = id;
+    document.getElementById("updateButton").style.display = "block";
 }
