@@ -8,7 +8,7 @@ async function Addtests(req,res,next){
     let date        = (req.body.date        === undefined)  ?      "" : addSlashes(req.body.date    );
 
     let Query = `INSERT INTO tests `;
-    Query += "(`user_id`, `high_value`, `low_value`, `heart_rate`, `date`)";
+    Query += "(`host_id`, `high_v`, `low_v`, `heart_r`, `date`)";
     Query += " VALUES ";
     Query += `('${host_id}','${high_v}','${low_v}','${heart_r}','${date}')`;
     // console.log(Query);
@@ -28,3 +28,4 @@ async function Addtests(req,res,next){
 
     next();
 }
+
