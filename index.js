@@ -3,8 +3,12 @@ const port = 6969;
 const express = require('express');
 const app = express();
 app.use(express.json());
-
-
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger-output.json');
+var options = {
+    explorer: true
+};
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 
 const bodyParser = require('body-parser');
 const path = require("path");
@@ -32,7 +36,6 @@ app.set('views', path.join(__dirname, "/views"));
 app.use("/js",express.static(path.join(__dirname, "js")));
 
 app.use("/css",express.static(path.join(__dirname, "css")));
-
 
 
 app.listen(port, () => {            //server starts listening for any attempts from a client to connect at port: {port}
