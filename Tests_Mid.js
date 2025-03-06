@@ -69,3 +69,32 @@ async function Deletetests(req,res,next){
     }
     next();
 }
+
+async function Readtests(req, res, next) {
+    let Query = 'SELECT *, ';
+    Query += 'DATE_FORMAT(date, "%Y-%m-%d") AS date, ';
+    Query += '(SELECT AVG(high_v) FROM tests) AS avg_high, ';
+    Query += '(SELECT AVG(low_v) FROM measurements) AS avg_low, ';
+    Query += '(SELECT AVG(heart_r) FROM measurements) AS avg_heart ';
+    Query += 'FROM tests';
+
+    const promisePool = db_pool.promise();
+    let rows = [];
+
+    try {
+        [rows] = await promisePool.query(Query);
+        rows = rows.map(measurement => ({
+            ...measurement,
+            highlight: measurement.high_value > 120 * 1.2 ||
+                measurement.low_value > 80 * 1.2 ||
+                measurement.heart_rate > 80 * 1.2
+        }));
+
+        req.success = true;
+        req.measurements_data = rows;
+    } catch (err) {
+        req.success = false;
+        console.log(err);
+    }
+    next();
+}
