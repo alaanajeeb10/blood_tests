@@ -79,9 +79,38 @@ async function Readhosts(req,res,next){
     next();
 }
 
+async function GetHostMonthStats(req, res) {
+    const hostId = req.query.host_id;
+    const month = req.query.month;
+
+    const query = `
+        SELECT
+            host_id,
+            AVG(CASE WHEN high_v > 140 OR low_v < 90 OR heart_r > 100 OR heart_r < 60 THEN high_v END) AS avg_high_v,
+            AVG(CASE WHEN high_v > 140 OR low_v < 90 OR heart_r > 100 OR heart_r < 60 THEN low_v END) AS avg_low_v,
+            AVG(CASE WHEN high_v > 140 OR low_v < 90 OR heart_r > 100 OR heart_r < 60 THEN heart_r END) AS avg_heart_r,
+            COUNT(*) AS abnormal_count
+        FROM tests
+        WHERE user_id = ? 
+          AND MONTH(date) = ?
+          AND (high_v > 140 OR low_v < 90 OR heart_r > 100 OR heart_r < 60)
+    `;
+
+    const promisePool = db_pool.promise();
+    try {
+        const [rows] = await promisePool.query(query, [hostId, month]);
+
+        res.json({ success: true, data: rows });
+    } catch (err) {
+        console.log("Database error:", err);
+        res.status(500).json({ success: false, message: "Error fetching host statistics" });
+    }
+}
+
 module.exports = {
     Addhosts: Addhosts,
     Readhosts:Readhosts,
     Updatehosts:Updatehosts,
     Deletehosts:Deletehosts,
+    GetHostMonthStats:GetHostMonthStats,
 }
