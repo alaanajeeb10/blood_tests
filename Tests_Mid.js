@@ -98,3 +98,10 @@ async function Readtests(req, res, next) {
     }
     next();
 }
+
+module.exports = {
+    Addtests: Addtests,
+    Updatetests:Updatetests,
+    Deletetests:Deletetests,
+    Readtests:Readtests,
+}
