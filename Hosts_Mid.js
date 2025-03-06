@@ -19,3 +19,23 @@ async function Addhosts(req,res,next){
 
     next();
 }
+
+async function Updatehosts(req,res,next){
+    let idx    = parseInt(req.body.idx);
+    let name   = addSlashes(req.body.name);
+
+    let Query = `UPDATE hosts SET `;
+    Query += ` name = '${name}' `;
+    Query += ` WHERE id = ${idx} `;
+    // console.log(Query);
+    const promisePool = db_pool.promise();
+    let rows=[];
+    try {
+        [rows] = await promisePool.query(Query);
+        req.success=true;
+    } catch (err) {
+        req.success=false;
+        console.log(err);
+    }
+    next();
+}
