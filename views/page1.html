@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood pressure monitoring</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<h2>Blood pressure monitoring</h2>
+
+<label for="hostSelectHistory"></label>
+<select id="hostSelectHistory" onchange="showInputSection()">
+</select>
+<button onclick="toggleTable()">View host table</button>
+
+<table id="dataTable" style="display: none;">
+    <thead>
+    <tr>
+        <th>systolic pressure</th>
+        <th>Diastolic pressure</th>
+        <th>pulse</th>
+        <th>date</th>
+        <th>operations</th>
+    </tr>
+    </thead>
+    <tbody id="mainTableData">
+    </tbody>
+</table>
+
+<div id="inputTable" style="display: none;">
+    <h3>Add or edit tests</h3>
+    <table>
+        <tr>
+            <th>systolic pressure</th>
+            <th>Diastolic pressure</th>
+            <th>pulse</th>
+            <th>date</th>
+        </tr>
+        <tr>
+            <td><input type="number" id="highV"></td>
+            <td><input type="number" id="lowV"></td>
+            <td><input type="number" id="heartR"></td>
+            <td><input type="date" id="testDate"></td>
+        </tr>
+    </table>
+    <button onclick="sendTests()">sending data</button>
+    <button id="updateButton" onclick="updateMeasurement()" style="display: none;">Data update</button>
+</div>
+<button  onclick="window.location.href='http://localhost:6969/useraverage'">הצגת סטטיסטיקות כלליות של משתמשים</button>
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>
