@@ -29,3 +29,26 @@ async function Addtests(req,res,next){
     next();
 }
 
+async function Updatetests(req, res, next) {
+    let idx = parseInt(req.params.id);
+    let high_v = (req.body.high_v === undefined) ? -1 : parseInt(req.body.high_v);
+    let low_v = (req.body.low_v === undefined) ? -1 : parseInt(req.body.low_v);
+    let heart_r = (req.body.heart_r === undefined) ? -1 : parseInt(req.body.heart_r);
+    let date = (req.body.date === undefined) ? "" : addSlashes(req.body.date);
+
+    console.log("Received update request:", req.body);
+
+    let Query = `UPDATE measurements SET high_v = ?, low_v = ?, heart_r = ?, date = ? WHERE id = ?`;
+    const promisePool = db_pool.promise();
+    try {
+        const [rows] = await promisePool.query(Query, [high_v, low_v, heart_r, date, idx]);
+        if (rows.affectedRows > 0) {
+            req.success = true;
+            res.json({ success: true, message: "המדידה עודכנה בהצלחה" });
+        } else {
+            req.success = false;
+        }
+    } catch (err) {
+        req.success = false;
+    }
+}
