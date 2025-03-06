@@ -2,6 +2,42 @@ var URL = "http://localhost:6969";
 var hosts = [];
 var selectedHostId = null; // מזהה המדידה שנבחרה לעריכה
 
+
+
+function showInputSection() {
+    let hostId = document.getElementById("hostSelectHistory").value;
+    let inputTable = document.getElementById("inputTable");
+
+    if (hostId) {
+        inputTable.style.display = "block";
+    } else {
+        inputTable.style.display = "none";
+    }
+}
+
+function toggleTable() {
+    let hostId = document.getElementById("hostSelectHistory").value;
+    let table = document.getElementById("dataTable");
+
+    if (hostId) {
+        table.style.display = "table";
+        GetTests(hostId);
+    } else {
+        table.style.display = "none";
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 async function GetTests(hostId) {
     try {
         let url = `${URL}/T/?host_id=${hostId}`;
@@ -169,3 +205,68 @@ async function updateTests() {
         alert("שגיאה בעדכון הנתונים");
     }
 }
+
+async function deleteTests(id) {
+
+
+    try {
+        let response = await fetch(`${URL}/T/${id}`, { method: "DELETE" });
+
+        if (response.ok) {
+            console.log("מדידה נמחקה בהצלחה");
+            document.getElementById(`row-${id}`).remove(); // הסרת השורה מהטבלה מיידית
+        } else {
+            let result = await response.json();
+            console.error("שגיאה במחיקת המדידה", result);
+        }
+    } catch (error) {
+        console.error("ERROR", error);
+    }
+}
+async function displayHostsData(month) {
+    let hostId = document.getElementById("hostSelectHistory").value;
+    if (!hostId) {
+        return;
+    }
+
+    try {
+        let url = `${URL}/H/hostData?host_id=${hostId}&month=${month}`;
+        let response = await fetch(url);
+        let result = await response.json();
+
+        if (!response.ok) {
+            console.error("Error fetching host data:", result.message);
+            return;
+        }
+
+        let tableBody = document.getElementById("hostDataTableBody");
+        tableBody.innerHTML = "";
+
+        if (!result.data || !Array.isArray(result.data)) {
+            console.warn("No data received or invalid format");
+            return;
+        }
+
+        result.data.forEach(userData => {
+            tableBody.innerHTML += `
+                <tr>
+                    <td>${hostData.host_id}</td>
+                    <td>${hostData.avg_high_v}</td>
+                    <td>${hostData.avg_low_v}</td>
+                    <td>${hostData.avg_heart_r}</td>
+                    <td>${hostData.abnormal_count}</td>
+                </tr>
+            `;
+        });
+    } catch (error) {
+        console.error("Error fetching host data:", error);
+    }
+}
+
+
+
+async function BuildPage() {
+    await GetHosts();
+
+}
+BuildPage();
