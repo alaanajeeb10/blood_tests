@@ -74,6 +74,49 @@ function editTests(id, high, low, heartR, date) {
 
 
 
+async function sendTests() {
+    let hostId = document.getElementById("hostSelectHistory").value;
+    let highV = document.getElementById("highV").value;
+    let lowV = document.getElementById("lowV").value;
+    let heartR = document.getElementById("heartR").value;
+    let testDate = document.getElementById("testDate").value;
+
+    if (!hostId) {
+        alert("נא לבחור משתמש!");
+        return;
+    }
+
+    if (!highV || !lowV || !heartR|| !testDate) {
+        alert("בבקשה למלא את כל הנתונים לפני השליחה!");
+        return;
+    }
+
+    let data = {
+        host_id: hostId,
+        high_v: highV,
+        low_v: lowValue,
+        heart_r: heartR,
+        date: testDate
+    };
+
+    try {
+        let response = await fetch(`${URL}/T/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+
+        let result = await response.json();
+        console.log("OK", result);
+
+        GetTests(hostId);
+    } catch (error) {
+        console.error("ERROR", error);
+        alert("שגיאה בהוספת הנתונים");
+    }
+}
+
+
 async function updateTests() {
     if (!selectedTestsId) {
         alert("please specify a test ID");
