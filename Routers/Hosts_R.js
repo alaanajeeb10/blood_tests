@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Hosts_Mid = require("../middleware/Hosts_Mid");
-
+const {Router} = require("express");
 
 
 router.post('/', [Hosts_Mid.Addhosts], (req, res) => {
