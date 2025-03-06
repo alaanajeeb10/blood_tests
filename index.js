@@ -4,6 +4,8 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
+
+
 const bodyParser = require('body-parser');
 const path = require("path");
 app.use(bodyParser.urlencoded({extended: false}));
@@ -16,6 +18,21 @@ global.htmlspecialchars = require('htmlspecialchars');
 
 const Hosts_R = require('./Routers/Hosts_R');
 app.use('/H/',Hosts_R);
+
+const Tests_R = require('./Routers/Tests_R');
+app.use('/T/',Tests_R);
+
+const Pages_R = require('./Routers/Pages_R');
+app.use('/',Pages_R);
+
+app.set("view engine", "ejs");
+
+app.set('views', path.join(__dirname, "/views"));
+
+app.use("/js",express.static(path.join(__dirname, "js")));
+
+app.use("/css",express.static(path.join(__dirname, "css")));
+
 
 
 app.listen(port, () => {            //server starts listening for any attempts from a client to connect at port: {port}
