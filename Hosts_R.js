@@ -27,3 +27,11 @@ router.delete('/', [Hosts_Mid.Deletehosts], (req, res) => {
         return res.status(500).json({ message: req.error || 'An error occurred' });
     }
 });
+
+router.get('/', [Hosts_Mid.Readhosts], (req, res) => {
+    if (req.success) {
+        res.status(200).json({ msg: "ok", data: req.users_data });
+    } else {
+        return res.status(500).json({ message: req.error || 'An error occurred' });
+    }
+});
