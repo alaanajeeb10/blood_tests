@@ -1,0 +1,18 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  build-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t blood-tests:ci .
+
+      - name: Compose config validate
+        run: docker compose -f docker-compose.yml config
