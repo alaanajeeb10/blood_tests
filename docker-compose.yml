@@ -14,8 +14,7 @@ services:
 
   app:
     build: .
-    ports:
-      - "3000:3000"
+    
     environment:
       DB_HOST: db
       DB_USER: root
